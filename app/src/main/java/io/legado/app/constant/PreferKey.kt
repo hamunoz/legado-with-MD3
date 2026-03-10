@@ -253,4 +253,7 @@ object PreferKey {
     const val sliderVibrator = "sliderVibrator"
     const val audioCacheCleanTime = "audioCacheCleanTime"
     const val audioPreDownloadNum = "audioPreDownloadNum"
+
+    const val translationFromLanguage = "translationFromLanguage"
+    const val translationToLanguage = "translationToLanguage"
 }

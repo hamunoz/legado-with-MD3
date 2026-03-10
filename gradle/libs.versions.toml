@@ -82,6 +82,7 @@ biometricKtx = "1.1.0"
 
 reorderable = "3.0.0"
 haze = "1.7.1"
+mlkitTranslate = "17.0.3"
 [libraries]
 
 accompanist-webview = { module = "com.google.accompanist:accompanist-webview", version.ref = "accompanistWebview" }
@@ -138,6 +139,7 @@ androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", vers
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-perf = { module = "com.google.firebase:firebase-perf" }
+mlkit-translate = { module = "com.google.mlkit:translate", version.ref = "mlkitTranslate" }
 
 
 fragment-fragment = { module = "androidx.fragment:fragment", version.ref = "fragment" }
