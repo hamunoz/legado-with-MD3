@@ -18,7 +18,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
 import splitties.init.appCtx
-import java.util.concurrent.TimeUnit
 
 /**
  * ML Kit Translation helper with database caching and automatic offline→online fallback.
