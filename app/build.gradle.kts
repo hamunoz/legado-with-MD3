@@ -137,7 +137,7 @@ android {
         val variant = this
         outputs.all {
             val output = this as com.android.build.gradle.internal.api.BaseVariantOutputImpl
-            val abi = output.getFilter(com.android.build.OutputFile.ABI)
+            val abi = output.filters.find { it.filterType == "ABI" }?.identifier
             val flavor = variant.productFlavors[0].name
             val baseVersionName = variant.versionName
             var apkName = "${appName}_${flavor}_${baseVersionName}"
