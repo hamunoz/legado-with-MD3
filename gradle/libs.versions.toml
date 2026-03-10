@@ -46,6 +46,7 @@ navigation3 = "1.0.0"
 markdownCompose = "0.5.0"
 markwon = "4.6.2"
 material = "1.14.0-alpha08"
+mlkitTranslate = "17.0.3"
 material3 = "1.5.0-alpha12"
 material3IconsExtended = "1.7.8"
 materialKolor = "4.1.0"
@@ -83,6 +84,7 @@ biometricKtx = "1.1.0"
 reorderable = "3.0.0"
 haze = "1.7.1"
 mlkitLanguageId = "17.0.4"
+mlkitTranslate = "17.0.3"
 [libraries]
 
 accompanist-webview = { module = "com.google.accompanist:accompanist-webview", version.ref = "accompanistWebview" }
@@ -139,6 +141,7 @@ androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", vers
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-perf = { module = "com.google.firebase:firebase-perf" }
+mlkit-translate = { module = "com.google.mlkit:translate", version.ref = "mlkitTranslate" }
 
 
 fragment-fragment = { module = "androidx.fragment:fragment", version.ref = "fragment" }
@@ -228,6 +231,7 @@ kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref =
 #kotlinx-serialization-protobuf = { module = "org.jetbrains.kotlinx:kotlinx-serialization-protobuf", version.ref = "kotlinxSerialization" }
 liveeventbus = { module = "com.github.michaellee123:LiveEventBus", version.ref = "liveeventbus" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
+mlkit-translate = { module = "com.google.mlkit:translate", version.ref = "mlkitTranslate" }
 
 mozilla-rhino = { module = "org.mozilla:rhino", version.ref = "rhino" }
 renderscript-intrinsics-replacement-toolkit = { module = "com.github.TomasValenta:renderscript-intrinsics-replacement-toolkit", version = "8eaa829ddd" }

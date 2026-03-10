@@ -1413,6 +1413,10 @@ class ReadBookActivity : BaseReadBookActivity(),
         showDialogFragment<ReadStyleDialog>()
     }
 
+    override fun showTranslateDialog() {
+        showDialogFragment<io.legado.app.ui.book.read.config.TranslateDialog>()
+    }
+
     /**
      * 更新状态栏,导航栏
      */
