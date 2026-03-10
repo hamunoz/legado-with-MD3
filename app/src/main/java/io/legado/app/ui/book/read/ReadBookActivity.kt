@@ -681,6 +681,7 @@ class ReadBookActivity : BaseReadBookActivity(),
             }
 
             R.id.menu_log -> showDialogFragment<AppLogDialog>()
+            R.id.menu_translate -> showDialogFragment(TranslationDialog())
             R.id.menu_toc_regex -> {
                 val intent = Intent(this, TxtTocRuleActivity::class.java)
                 intent.putExtra("tocRegex", ReadBook.book?.tocUrl)
@@ -749,6 +750,15 @@ class ReadBookActivity : BaseReadBookActivity(),
         ReadBook.clearTextChapter()
         binding.readView.upContent()
         viewModel.refreshContentAll(book)
+    }
+
+    /**
+     * Called from [TranslationDialog] when the user confirms language selection.
+     * Subclasses or future implementations can override this to perform the
+     * actual translation; for now it shows a toast confirming the selection.
+     */
+    fun startTranslation(fromLang: String, toLang: String) {
+        toastOnUi(getString(R.string.translation_started, fromLang, toLang))
     }
 
     override fun onMenuItemClick(item: MenuItem): Boolean {

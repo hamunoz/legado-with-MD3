@@ -83,6 +83,7 @@ biometricKtx = "1.1.0"
 
 reorderable = "3.0.0"
 haze = "1.7.1"
+mlkitLanguageId = "17.0.4"
 mlkitTranslate = "17.0.3"
 [libraries]
 
@@ -238,6 +239,8 @@ zxing-lite = { module = "com.github.jenly1314:zxing-lite", version.ref = "zxingL
 androidx-biometric-ktx = { group = "androidx.biometric", name = "biometric-ktx", version.ref = "biometricKtx" }
 
 reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reorderable" }
+
+mlkit-language-id = { module = "com.google.mlkit:language-id", version.ref = "mlkitLanguageId" }
 
 [bundles]
 coroutines = ["kotlinx-coroutines-core", "kotlinx-coroutines-android"]
