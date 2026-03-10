@@ -1391,4 +1391,14 @@
     <string name="click_image_way">点击图片行为</string>
     <string name="show_web_log">输出日志</string>
     <string name="is_blur_progressive_enable">启用渐变模糊</string>
+    <string name="translate">Translate</string>
+    <string name="translate_from_language">Source language</string>
+    <string name="translate_to_language">Target language</string>
+    <string name="translate_apply">Translate</string>
+    <string name="translate_download_model">Download model</string>
+    <string name="translate_model_downloaded">Translation model downloaded</string>
+    <string name="translate_model_download_failed">Model download failed: %s</string>
+    <string name="translate_in_progress">Translating…</string>
+    <string name="translate_failed">Translation failed: %s</string>
+    <string name="translate_select_language">Please select a language</string>
 </resources>

@@ -726,6 +726,12 @@ class ReadMenu @JvmOverloads constructor(
                 onLongClick = { runMenuOut { callBack.openReplaceRule() } },
                 onCheck = { runMenuOut { callBack.changeReplaceRuleState() } },
                 onClick = {  }
+            ),
+            ToolButton(
+                id = "translate",
+                iconRes = R.drawable.ic_translate,
+                description = context.getString(R.string.translate),
+                onClick = { runMenuOut { callBack.showTranslateDialog() } }
             )
         )
     }
@@ -931,6 +937,7 @@ class ReadMenu @JvmOverloads constructor(
         fun onMenuShow()
         fun onMenuHide()
         fun changeReplaceRuleState()
+        fun showTranslateDialog()
     }
 
     data class ToolButton(

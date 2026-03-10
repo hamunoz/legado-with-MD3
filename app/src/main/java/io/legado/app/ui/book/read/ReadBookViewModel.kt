@@ -8,6 +8,7 @@ import io.legado.app.base.BaseViewModel
 import io.legado.app.constant.AppLog
 import io.legado.app.constant.BookType
 import io.legado.app.constant.EventBus
+import io.legado.app.constant.PreferKey
 import io.legado.app.data.appDb
 import io.legado.app.data.entities.Book
 import io.legado.app.data.entities.BookChapter
@@ -16,6 +17,7 @@ import io.legado.app.exception.NoStackTraceException
 import io.legado.app.help.AppWebDav
 import io.legado.app.help.book.BookHelp
 import io.legado.app.help.book.ContentProcessor
+import io.legado.app.help.translation.TranslationHelper
 import io.legado.app.help.book.isLocal
 import io.legado.app.help.book.isLocalModified
 import io.legado.app.help.book.removeType
@@ -31,7 +33,9 @@ import io.legado.app.service.BaseReadAloudService
 import io.legado.app.ui.book.read.page.entities.TextChapter
 import io.legado.app.ui.book.searchContent.SearchResult
 import io.legado.app.utils.ImageSaveUtils
+import io.legado.app.utils.getPrefString
 import io.legado.app.utils.mapParallelSafe
+import io.legado.app.utils.putPrefString
 import io.legado.app.utils.postEvent
 import io.legado.app.utils.toStringArray
 import io.legado.app.utils.toastOnUi
@@ -538,8 +542,80 @@ class ReadBookViewModel(application: Application) : BaseViewModel(application) {
         }
     }
 
+    // ── Translation ────────────────────────────────────────────────────────────
+
+    private var translationHelper: TranslationHelper? = null
+
+    /** Current translation source language (ML Kit language code, e.g. "en"). */
+    var translationFromLanguage: String
+        get() = context.getPrefString(PreferKey.translationFromLanguage, "en") ?: "en"
+        set(value) = context.putPrefString(PreferKey.translationFromLanguage, value)
+
+    /** Current translation target language (ML Kit language code, e.g. "es"). */
+    var translationToLanguage: String
+        get() = context.getPrefString(PreferKey.translationToLanguage, "es") ?: "es"
+        set(value) = context.putPrefString(PreferKey.translationToLanguage, value)
+
+    /**
+     * Download the ML Kit translation model for [from] → [to] if not already present.
+     * Calls [onComplete] on success, [onError] on failure.
+     */
+    fun downloadTranslationModel(
+        from: String,
+        to: String,
+        onComplete: () -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        execute {
+            getOrCreateHelper().apply { init(from, to) }.downloadModel()
+        }.onSuccess {
+            onComplete()
+        }.onError {
+            onError(it)
+        }
+    }
+
+    /**
+     * Translate the current chapter content and save it back.
+     *
+     * @param from source language code
+     * @param to target language code
+     * @param onProgress paragraph progress callback (current, total)
+     * @param onSuccess called with the translated text once complete
+     * @param onError called if translation fails
+     */
+    fun translateCurrentChapter(
+        from: String,
+        to: String,
+        onProgress: ((current: Int, total: Int) -> Unit)? = null,
+        onSuccess: (String) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
+        val book = ReadBook.book ?: return
+        execute {
+            val chapter = appDb.bookChapterDao.getChapter(book.bookUrl, ReadBook.durChapterIndex)
+                ?: return@execute null
+            val content = BookHelp.getContent(book, chapter)
+                ?: return@execute null
+            val helper = getOrCreateHelper()
+            helper.init(from, to)
+            helper.translateByParagraph(content, onProgress)
+        }.onSuccess { translated ->
+            translated?.let { onSuccess(it) }
+        }.onError {
+            onError(it)
+        }
+    }
+
+    private fun getOrCreateHelper(): TranslationHelper {
+        return translationHelper ?: TranslationHelper(
+            java.io.File(context.cacheDir, "translation")
+        ).also { translationHelper = it }
+    }
+
     override fun onCleared() {
         super.onCleared()
+        translationHelper?.close()
         if (BaseReadAloudService.isRun && BaseReadAloudService.pause) {
             ReadAloud.stop(context)
         }
