@@ -1391,4 +1391,37 @@
     <string name="click_image_way">点击图片行为</string>
     <string name="show_web_log">输出日志</string>
     <string name="is_blur_progressive_enable">启用渐变模糊</string>
+
+    <!-- Translation UI -->
+    <string name="translate_chapter">Translate Chapter</string>
+    <string name="from_language">From Language</string>
+    <string name="to_language">To Language</string>
+    <string name="translate">Translate</string>
+    <string name="re_detect">Re-detect</string>
+    <string name="detected_language">Detected: %1$s (%2$d%%)</string>
+    <string name="select_both_languages">Please select both source and target languages</string>
+    <string name="same_language_error">Source and target languages must be different</string>
+    <string name="translation_started">Translating from %1$s to %2$s…</string>
+
+    <!-- Language names -->
+    <string name="lang_english">English</string>
+    <string name="lang_spanish">Spanish</string>
+    <string name="lang_french">French</string>
+    <string name="lang_german">German</string>
+    <string name="lang_italian">Italian</string>
+    <string name="lang_portuguese">Portuguese</string>
+    <string name="lang_russian">Russian</string>
+    <string name="lang_japanese">Japanese</string>
+    <string name="lang_chinese">Chinese</string>
+    <string name="lang_korean">Korean</string>
+    <string name="lang_arabic">Arabic</string>
+    <string name="lang_hindi">Hindi</string>
+    <string name="lang_turkish">Turkish</string>
+    <string name="lang_dutch">Dutch</string>
+    <string name="lang_polish">Polish</string>
+    <string name="lang_swedish">Swedish</string>
+    <string name="lang_ukrainian">Ukrainian</string>
+    <string name="lang_vietnamese">Vietnamese</string>
+    <string name="lang_thai">Thai</string>
+    <string name="lang_indonesian">Indonesian</string>
 </resources>

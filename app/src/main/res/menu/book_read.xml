@@ -45,6 +45,11 @@
     </group>
 
     <item
+        android:id="@+id/menu_translate"
+        android:title="@string/translate_chapter"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/menu_tool_button"
         android:title="@string/config_btn"
         app:showAsAction="never" />
