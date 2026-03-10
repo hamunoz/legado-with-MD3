@@ -174,6 +174,14 @@ object PreferKey {
     const val showMangaUi = "showMangaUi"
     const val disableMangaScale = "disableMangaScale"
     const val firebaseEnable = "firebaseEnable"
+
+    // Translation preferences
+    const val enableAutoFallback = "enableAutoFallback"
+    const val preferredTranslationMode = "preferredTranslationMode"
+    const val translationCacheDays = "translationCacheDays"
+    const val enableTranslationCache = "enableTranslationCache"
+    const val translationSourceLang = "translationSourceLang"
+    const val translationTargetLang = "translationTargetLang"
     const val cPrimary = "colorPrimary"
     const val cAccent = "colorAccent"
     const val customMode = "customMode"

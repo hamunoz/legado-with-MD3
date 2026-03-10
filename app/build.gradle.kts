@@ -236,6 +236,7 @@ dependencies {
     implementation(libs.markwon.html)
     implementation(libs.quick.chinese.transfer.core)
     implementation(libs.hutool.crypto)
+    implementation(libs.mlkit.translate)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.perf)
