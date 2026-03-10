@@ -591,17 +591,20 @@ class ReadBookViewModel(application: Application) : BaseViewModel(application) {
         onSuccess: (String) -> Unit,
         onError: (Throwable) -> Unit
     ) {
-        val book = ReadBook.book ?: return
+        val book = ReadBook.book ?: run {
+            onError(IllegalStateException("No book open"))
+            return
+        }
         execute {
             val chapter = appDb.bookChapterDao.getChapter(book.bookUrl, ReadBook.durChapterIndex)
-                ?: return@execute null
+                ?: throw NoStackTraceException("Chapter not found")
             val content = BookHelp.getContent(book, chapter)
-                ?: return@execute null
+                ?: throw NoStackTraceException("Chapter content unavailable")
             val helper = getOrCreateHelper()
             helper.init(from, to)
             helper.translateByParagraph(content, onProgress)
         }.onSuccess { translated ->
-            translated?.let { onSuccess(it) }
+            onSuccess(translated)
         }.onError {
             onError(it)
         }

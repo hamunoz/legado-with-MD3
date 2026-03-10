@@ -256,5 +256,4 @@ object PreferKey {
 
     const val translationFromLanguage = "translationFromLanguage"
     const val translationToLanguage = "translationToLanguage"
-    const val translationOfflineMode = "translationOfflineMode"
 }

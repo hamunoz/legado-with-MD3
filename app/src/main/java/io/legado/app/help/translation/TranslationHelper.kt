@@ -39,14 +39,14 @@ class TranslationHelper(private val cacheDir: File) {
 
     /**
      * Download the ML Kit model for the current language pair.
-     * Calls [onProgress] once the download is complete.
+     * Calls [onComplete] once the download is complete.
      *
      * @throws Exception if the download fails.
      */
-    suspend fun downloadModel(onProgress: (() -> Unit)? = null) = withContext(Dispatchers.IO) {
+    suspend fun downloadModel(onComplete: (() -> Unit)? = null) = withContext(Dispatchers.IO) {
         val t = translator ?: throw IllegalStateException("Translator not initialised")
         Tasks.await(t.downloadModelIfNeeded())
-        onProgress?.invoke()
+        onComplete?.invoke()
     }
 
     /**
@@ -63,19 +63,12 @@ class TranslationHelper(private val cacheDir: File) {
         getCached(cacheKey)?.let { return@withContext it }
 
         val t = translator ?: throw IllegalStateException("Translator not initialised")
-        val paragraphs = text.split("\n")
+        val paragraphs = text.lines()
         val total = paragraphs.size
-        val translated = StringBuilder()
-        paragraphs.forEachIndexed { index, paragraph ->
-            if (paragraph.isBlank()) {
-                translated.append("\n")
-            } else {
-                val translatedParagraph = Tasks.await(t.translate(paragraph))
-                translated.append(translatedParagraph).append("\n")
-            }
+        val result = paragraphs.mapIndexed { index, paragraph ->
             onProgress?.invoke(index + 1, total)
-        }
-        val result = translated.trimEnd().toString()
+            if (paragraph.isBlank()) paragraph else Tasks.await(t.translate(paragraph))
+        }.joinToString("\n")
         putCache(cacheKey, result)
         result
     }
@@ -88,7 +81,7 @@ class TranslationHelper(private val cacheDir: File) {
     // ── Cache helpers ──────────────────────────────────────────────────────────
 
     private fun cacheKey(text: String): String {
-        return MD5Utils.md5Encode("${currentFrom}_${currentTo}_$text")
+        return "${currentFrom}_${currentTo}_${MD5Utils.md5Encode(text)}"
     }
 
     private fun getCached(key: String): String? {

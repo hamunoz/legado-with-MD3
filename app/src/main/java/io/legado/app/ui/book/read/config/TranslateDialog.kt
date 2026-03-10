@@ -9,8 +9,10 @@ import io.legado.app.R
 import io.legado.app.base.BaseBottomSheetDialogFragment
 import io.legado.app.databinding.DialogTranslateBinding
 import io.legado.app.help.translation.TranslationHelper
+import io.legado.app.lib.dialogs.alert
 import io.legado.app.model.ReadBook
 import io.legado.app.ui.book.read.ReadBookActivity
+import io.legado.app.ui.book.read.ReadBookViewModel
 import io.legado.app.utils.toastOnUi
 import io.legado.app.utils.viewbindingdelegate.viewBinding
 
@@ -89,40 +91,46 @@ class TranslateDialog : BaseBottomSheetDialogFragment(R.layout.dialog_translate)
         binding.btnTranslate.setOnClickListener {
             val fromCode = selectedFromCode() ?: return@setOnClickListener
             val toCode = selectedToCode() ?: return@setOnClickListener
-            saveSelections(fromCode, toCode)
-            showProgress(true)
-            binding.tvProgress.text = getString(R.string.translate_in_progress)
-            viewModel?.translateCurrentChapter(
-                from = fromCode,
-                to = toCode,
-                onProgress = { current, total ->
-                    activity?.runOnUiThread {
-                        binding.progressBar.max = total
-                        binding.progressBar.progress = current
-                        binding.tvProgress.text = "$current / $total"
-                    }
-                },
-                onSuccess = { translated ->
-                    activity?.runOnUiThread {
-                        showProgress(false)
-                        viewModel?.let { vm ->
-                            ReadBook.book?.let { book ->
-                                vm.saveContent(book, translated)
-                            }
-                        }
-                        dismiss()
-                    }
-                },
-                onError = { e ->
-                    activity?.runOnUiThread {
-                        showProgress(false)
-                        context?.toastOnUi(
-                            getString(R.string.translate_failed, e.localizedMessage)
-                        )
-                    }
-                }
-            )
+            alert(R.string.translate) {
+                setMessage(R.string.translate_overwrite_warning)
+                yesButton { startTranslation(fromCode, toCode) }
+                noButton()
+            }
         }
+    }
+
+    private fun startTranslation(fromCode: String, toCode: String) {
+        saveSelections(fromCode, toCode)
+        showProgress(true)
+        binding.tvProgress.text = getString(R.string.translate_in_progress)
+        viewModel?.translateCurrentChapter(
+            from = fromCode,
+            to = toCode,
+            onProgress = { current, total ->
+                activity?.runOnUiThread {
+                    binding.progressBar.max = total
+                    binding.progressBar.progress = current
+                    binding.tvProgress.text = "$current / $total"
+                }
+            },
+            onSuccess = { translated ->
+                activity?.runOnUiThread {
+                    showProgress(false)
+                    val vm = viewModel ?: return@runOnUiThread
+                    val book = ReadBook.book ?: return@runOnUiThread
+                    vm.saveContent(book, translated)
+                    dismiss()
+                }
+            },
+            onError = { e ->
+                activity?.runOnUiThread {
+                    showProgress(false)
+                    context?.toastOnUi(
+                        getString(R.string.translate_failed, e.localizedMessage)
+                    )
+                }
+            }
+        )
     }
 
     private fun selectedFromCode(): String? {
